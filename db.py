@@ -7,6 +7,7 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='system.log')
 
 db_file_name = 'settings.db'
+# for first run fill, then run create_db() / open_and_write_db()
 name = ''
 api_key = ''
 flags = ''
@@ -71,4 +72,7 @@ if not (os.path.isfile(db_file_name)):
     create_db(db_file_name)
     open_and_write_db(db_file_name)
 
-open_and_read_db(db_file_name)
+# open_and_read_db(db_file_name)
+
+
+
