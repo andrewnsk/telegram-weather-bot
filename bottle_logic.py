@@ -1,6 +1,9 @@
 import sqlite3
 import logging
 
+MALE = '1'
+FEMALE = '0'
+BI = '10'
 
 class Bottle:
     def __init__(self):
@@ -46,7 +49,12 @@ class Bottle:
 
 
     def define_gender(self, name):
-        pass
+        if name not in self.males:
+            return FEMALE
+        elif name not in self.females:
+            return MALE
+        else:
+            return BI
 
 
     def players(self, names):
@@ -58,7 +66,7 @@ class Bottle:
         for human in names:
 
         self.cur.execute('''INSERT INTO bot(name, gender)
-                            VALUES(?,?,?,?)''', (names, gender))
+                            VALUES(?,?,?,?)''', (human, self.define_gender(human)))
 
 
     def rnd(self):
