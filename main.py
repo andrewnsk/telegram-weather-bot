@@ -3,6 +3,7 @@ import telegram
 from telegram import Updater, emoji
 from db import get_data_from_db
 
+# please, use you own ipi token
 bot_token = '186600990:AAHJU4yx2UwFtMf41buQacWsttj6u6Q7rMo'
 bot = telegram.Bot(token=bot_token)
 
@@ -23,27 +24,32 @@ def start(bot, update):
 dispatcher.addTelegramCommandHandler('start', start)
 
 
-def info(bot, update):
-    file = 'weather.db'
-    table = 'weather'
-    data = ''
-    weather_data = get_data_from_db(file, table, data)
+def info(bot, update, args):
+    town = str(args[0])
 
-    text = 'Погода в Норильске ' + telegram.Emoji.AERIAL_TRAMWAY + '\n' + \
-           'Температура:         ' + str(weather_data[3]) + '\n', \
-           'Влажность:           ' + str(weather_data[4]) + ' % \n', \
-           'Ветер:               ' + str(weather_data[5]) + ' ' + str(weather_data[6]) + '\n'
-    text_2 = "тест 2"
-    text_3 = 'тест 3'
+    if town == 'Норильск' or 'норильск':
+        table = 'weather'
+    else:
+        table = 'error'
+
+    file = 'weather.db'
+
+    data = ''
+    weather = get_data_from_db(file, table, data)
+    '''
+    weather_krasnodar = get_data_from_db(file, table_krasnodar, data)
+    weather_sochi = get_data_from_db(file, table_sochi, data)
+    '''
+
     bot.sendMessage(chat_id=update.message.chat_id, text='Погода в Норильске ' +
                                                          telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n' +
+                                                         str(args) + ' ' + town + '\n'
                                                          'Температура:          ' +
-                                                         str(weather_data[3]) + '\n' +
+                                                         str(weather[3]) + '\n' +
                                                          'Влажность:           ' +
-                                                         str(weather_data[4]) + ' % \n' +
-                                                         'Ветер:               ' + str(weather_data[5]) +
-                                                         ' ' + str(weather_data[6]) + '\n'
-                    )
+                                                         str(weather[4]) + ' % \n' +
+                                                         'Ветер:               ' + str(weather[5]) +
+                                                         ' ' + str(weather[6]) + '\n')
 
 
 dispatcher.addTelegramCommandHandler('info', info)
