@@ -1,5 +1,6 @@
 import sqlite3
 import logging
+import random
 
 MALE = '1'
 FEMALE = '0'
@@ -69,8 +70,10 @@ class Bottle:
                             VALUES(?,?,?,?)''', (human, self.define_gender(human)))
 
 
+    @property
     def rnd(self):
         quantity = len(self.gamers)
+        return random.randint(1, quantity)
 
     def phrases(self):
         pass
