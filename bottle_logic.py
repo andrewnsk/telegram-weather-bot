@@ -23,6 +23,7 @@ class Bottle:
 
         self.females = [
             "Анна",
+            "Александра",
             "Анастасия",
             "Валентина",
             "Екатерина",
@@ -40,6 +41,7 @@ class Bottle:
             "Константин",
             "Павел",
             "Анна",
+            "Александра",
             "Анастасия",
             "Валентина",
             "Екатерина",
@@ -49,7 +51,8 @@ class Bottle:
         self.phrases = [
             "нежно целует в щечку",
             "целует взасос",
-            "шлепает по попке"
+            "шлепает по попке",
+            "страстно целует"
 
         ]
 
@@ -80,32 +83,60 @@ class Bottle:
 
     @staticmethod
     def rnd(obj):
+
         quantity = len(obj)
         return random.randint(0, quantity - 1)
 
-    def kiss(self):
-        self.rnd(self.phrases)
+    @staticmethod
+    def ok(gamer):
+        if gamer[-1:] == 'я':
+            gamered = gamer[:len(gamer) - 1] + 'ю'
+        elif gamer[-1:] == 'й':
+            gamered = gamer[:len(gamer) - 1] + 'я'
+        elif gamer[-1:] == 'а':
+            gamered = gamer[:len(gamer) - 1] + 'у'
+        elif gamer[-1:] == 'р':
+            gamered = gamer + 'а'
+        elif gamer[-1:] == 'с':
+            gamered = gamer + 'а'
+        elif gamer[-1:] == 'н':
+            gamered = gamer + 'а'
+        elif gamer[-2:] == 'ел':
+            gamered = gamer[:len(gamer) - 2] + 'ла'
+        elif gamer[-1:] == 'л':
+            gamered = gamer + 'а'
+        else:
+            gamered = gamer
+        return gamered
 
+    def kiss(self, player):
+        global text
+        if self.define_gender(player) == MALE:
+            text = player + ' ' + \
+                   self.phrases[self.rnd(self.phrases)] + ' ' + \
+                   self.ok(self.females[self.rnd(self.females)])
+
+        elif self.define_gender(player) == FEMALE:
+            text = player + ' ' + \
+                   self.phrases[self.rnd(self.phrases)] + ' ' + \
+                   self.ok(self.males[self.rnd(self.males)])
+
+        else:
+            text = player + ' ' + \
+                   self.phrases[self.rnd(self.phrases)] + ' ' + \
+                   self.ok(self.gamers[self.rnd(self.gamers)])
+
+        return text
 
 new_game = Bottle()
-kissed = new_game.rnd(new_game.gamers)
+kissed = new_game.kiss('Анастасия')
 print(kissed)
-gamer = new_game.gamers[kissed]
-print(gamer)
 
-if gamer[-1:] == 'я':
-    gamered = gamer[:len(gamer) - 1] + 'ю'
-elif gamer[-1:] == 'й':
-    gamered = gamer[:len(gamer) - 1] + 'я'
-elif gamer[-1:] == 'а':
-    gamered = gamer[:len(gamer) - 1] + 'у'
-elif gamer[-1:] == 'р':
-    gamered = gamer + 'а'
 
-else:
-    gamered = gamer
 
-print(gamered)
+
+
+
 
 
 
