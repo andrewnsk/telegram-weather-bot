@@ -2,27 +2,30 @@ import logging
 import telegram
 from telegram import Updater, emoji
 from db import get_data_from_db
+from bottle_logic import Bottle
+from get_weather import GetWeather
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     filename='system.log')
 
 # please, use you own ipi token
+"""
 db_file_name = 'settings.db'
 bot_settings = get_data_from_db(db_file_name, 'bot', '')
 bot_token = bot_settings[2]
+"""
 
-# bot_token = '186600990:AAHJU4yx2UwFtMf41buQacWsttj6u6Q7rMo'
+bot_token = '186600990:AAHJU4yx2UwFtMf41buQacWsttj6u6Q7rMo'
 bot = telegram.Bot(token=bot_token)
 
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
 
 
 def start(bot, update):
+
     bot.sendMessage(chat_id=update.message.chat_id, text="Привет! "
                                                          "я бот и я знаю информацию о погоде в Норильске"
                                                          ", Краснодаре "
@@ -32,44 +35,30 @@ def start(bot, update):
 dispatcher.addTelegramCommandHandler('start', start)
 
 
-def norilsk(bot, update):
+def weather_message(bot, update, args):
 
-    file = 'weather.db'
-    table = 'weather'
-    data = ''
-    weather = get_data_from_db(file, table, data)
+    weather = GetWeather(args[0])
 
-    bot.sendMessage(chat_id=update.message.chat_id, text='Погода в Норильске ' +
+    bot.sendMessage(chat_id=update.message.chat_id, text='Погода ' +
                                                          telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n' +
-                                                         # str(args) + ' ' + town + '\n'
                                                          'Температура:          ' +
-                                                         str(weather[3]) + '\n' +
+                                                         str(weather.temperature()) + ' градусов \n' +
                                                          'Влажность:           ' +
-                                                         str(weather[4]) + ' % \n' +
-                                                         'Ветер:               ' + str(weather[5]) +
-                                                         ' ' + str(weather[6]) + '\n')
+                                                         str(weather.humidity()) + ' % \n' +
+                                                         'Ветер:               ' +
+                                                         ' ' + str(weather.wind_direction()) + ' ' +
+                                                         str(weather.wind_speed()) + ' м/с \n')
 
 
-dispatcher.addTelegramCommandHandler('nor', norilsk)
+dispatcher.addTelegramCommandHandler('w', weather_message)
 
 
 # Поиграем в бытылочку ;)
-def bottle_game(bot, update):
+def bottle_game(bot, update, args):
 
-    file = 'bottle.db'
-    table = 'weather'
-    data = ''
-    bottle.users = get_data_from_db(file, table, data)
-
-    bot.sendMessage(chat_id=update.message.chat_id, text='Погода в Норильске ' +
-                                                         telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n' +
-                                                         # str(args) + ' ' + town + '\n'
-                                                         'Температура:          ' +
-                                                         str(weather[3]) + '\n' +
-                                                         'Влажность:           ' +
-                                                         str(weather[4]) + ' % \n' +
-                                                         'Ветер:               ' + str(weather[5]) +
-                                                         ' ' + str(weather[6]) + '\n')
+    newgame = Bottle()
+    kissed = newgame.kiss(args[0])
+    bot.sendMessage(chat_id=update.message.chat_id, text=kissed + telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n')
 
 
 dispatcher.addTelegramCommandHandler('bottle', bottle_game)

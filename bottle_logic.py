@@ -55,13 +55,14 @@ class Bottle:
             "страстно целует"
 
         ]
-
+        """
         self.db_connection = sqlite3.connect(":memory:")
         self.db_connection.isolation_level = None
         self.cur = self.db_connection.cursor()
         self.cur.execute('''CREATE TABLE players
                             (id INTEGER PRIMARY KEY, name TEXT, gender TEXT, flags INTEGER, description TEXT)''')
         self.db_connection.commit()
+        """
 
     def define_gender(self, name):
         if name not in self.males:
@@ -70,7 +71,7 @@ class Bottle:
             return MALE
         else:
             return BI
-
+    """
     def players(self, names):
 
         self.db_connection = sqlite3.connect(":memory:")
@@ -80,6 +81,7 @@ class Bottle:
         for human in names:
             self.cur.execute('''INSERT INTO bot(name, gender)
                             VALUES(?,?,?,?)''', (human, self.define_gender(human)))
+    """
 
     @staticmethod
     def rnd(obj):
@@ -127,11 +129,11 @@ class Bottle:
                    self.ok(self.gamers[self.rnd(self.gamers)])
 
         return text
-
+'''
 new_game = Bottle()
-kissed = new_game.kiss('Анастасия')
+kissed = new_game.kiss('Александра')
 print(kissed)
-
+'''
 
 
 
