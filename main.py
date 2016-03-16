@@ -3,6 +3,7 @@ import telegram
 from telegram import Updater, emoji
 from db import get_data_from_db
 from bottle_logic import Bottle
+from get_weather import GetWeather
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -34,25 +35,22 @@ def start(bot, update):
 dispatcher.addTelegramCommandHandler('start', start)
 
 
-def norilsk(bot, update):
+def weather_message(bot, update, args):
 
-    file = 'weather.db'
-    table = 'weather'
-    data = ''
-    weather = get_data_from_db(file, table, data)
+    weather = GetWeather(args[0])
 
-    bot.sendMessage(chat_id=update.message.chat_id, text='Погода в Норильске ' +
+    bot.sendMessage(chat_id=update.message.chat_id, text='Погода ' +
                                                          telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n' +
-                                                         # str(args) + ' ' + town + '\n'
                                                          'Температура:          ' +
-                                                         str(weather[3]) + '\n' +
+                                                         str(weather.temperature()) + ' градусов \n' +
                                                          'Влажность:           ' +
-                                                         str(weather[4]) + ' % \n' +
-                                                         'Ветер:               ' + str(weather[5]) +
-                                                         ' ' + str(weather[6]) + '\n')
+                                                         str(weather.humidity()) + ' % \n' +
+                                                         'Ветер:               ' +
+                                                         ' ' + str(weather.wind_direction()) + ' ' +
+                                                         str(weather.wind_speed()) + ' м/с \n')
 
 
-dispatcher.addTelegramCommandHandler('nor', norilsk)
+dispatcher.addTelegramCommandHandler('w', weather_message)
 
 
 # Поиграем в бытылочку ;)
