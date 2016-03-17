@@ -1,6 +1,7 @@
 import logging
 import telegram
-from telegram import Updater, emoji
+from telegram.updater import Updater
+from telegram import emoji
 from db import get_data_from_db
 from bottle_logic import Bottle
 from get_weather import GetWeather
