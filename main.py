@@ -20,13 +20,11 @@ bot_token = bot_settings[2]
 bot_token = '186600990:AAHJU4yx2UwFtMf41buQacWsttj6u6Q7rMo'
 bot = telegram.Bot(token=bot_token)
 
-
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
 
 
 def start(bot, update):
-
     bot.sendMessage(chat_id=update.message.chat_id, text="Привет! "
                                                          "я бот и я знаю информацию о погоде в Норильске"
                                                          ", Краснодаре "
@@ -37,18 +35,19 @@ dispatcher.addTelegramCommandHandler('start', start)
 
 
 def weather_message(bot, update, args):
-
     weather = GetWeather(args[0])
 
     bot.sendMessage(chat_id=update.message.chat_id, text='Погода ' +
-                                                         telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n' +
+                                                         telegram.Emoji.SUNRISE + '\n' +
                                                          'Температура:          ' +
                                                          str(weather.temperature()) + ' градусов \n' +
                                                          'Влажность:           ' +
                                                          str(weather.humidity()) + ' % \n' +
                                                          'Ветер:               ' +
                                                          ' ' + str(weather.wind_direction()) + ' ' +
-                                                         str(weather.wind_speed()) + ' м/с \n')
+                                                         str(weather.wind_speed()) + ' м/с \n' +
+                                                         weather.status()
+                    )
 
 
 dispatcher.addTelegramCommandHandler('w', weather_message)
@@ -56,7 +55,6 @@ dispatcher.addTelegramCommandHandler('w', weather_message)
 
 # Поиграем в бытылочку ;)
 def bottle_game(bot, update, args):
-
     newgame = Bottle()
     kissed = newgame.kiss(args[0])
     bot.sendMessage(chat_id=update.message.chat_id, text=kissed + telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n')
@@ -81,8 +79,6 @@ def unknown(bot, update):
 
 
 dispatcher.addUnknownTelegramCommandHandler(unknown)
-
-
 
 updater.start_polling()
 '''

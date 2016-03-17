@@ -14,15 +14,19 @@ class GetWeather:
         elif location == "Сочи" or location == "сочи":
             self.location = "Sochi"
         else:
-            self.location = None
+            self.location = location
 
         # openweathermap API key
         # please use you own api key!
         self.owm_api_key = '3ede2418f1124401efcd68e5ae3bddcb'
 
-        self.owm = pyowm.OWM(self.owm_api_key)
+        self.owm = pyowm.OWM(self.owm_api_key, language='ru')
         self.observation = self.owm.weather_at_place('{0}'.format(self.location))
         self.w = self.observation.get_weather()
+        self.l = self.observation.get_location()
+
+    def town(self):
+        return str(json.loads(json.dumps(self.l.get_name())))
 
     def wind_direction(self):
         return str(azimuth.degree(round(json.loads(json.dumps(self.w.get_wind()), 1)['deg'])))
@@ -35,3 +39,6 @@ class GetWeather:
 
     def humidity(self):
         return int(round(json.loads(json.dumps(self.w.get_humidity()))))
+
+    def status(self):
+        return str(json.loads(json.dumps(self.w.get_detailed_status())))
