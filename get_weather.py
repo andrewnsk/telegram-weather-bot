@@ -2,6 +2,8 @@ import pyowm
 import json
 import azimuth
 
+MMHG = 0.75006375541921
+
 
 class GetWeather:
 
@@ -42,3 +44,7 @@ class GetWeather:
 
     def status(self):
         return str(json.loads(json.dumps(self.w.get_detailed_status())))
+
+    def pressure(self):
+        return str(round(json.loads(json.dumps(self.w.get_pressure()))['press'] * MMHG))
+
