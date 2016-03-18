@@ -37,7 +37,10 @@ class GetWeather:
         return str(round(json.loads(json.dumps(self.w.get_wind()))['speed']))
 
     def temperature(self):
-        return str(round(json.loads(json.dumps(self.w.get_temperature('celsius')))['temp']))
+        temp = round(json.loads(json.dumps(self.w.get_temperature('celsius')))['temp'])
+        if temp > 0:
+            temp = '+' + str(temp)
+        return str(temp)
 
     def humidity(self):
         return int(round(json.loads(json.dumps(self.w.get_humidity()))))
@@ -45,6 +48,6 @@ class GetWeather:
     def status(self):
         return str(json.loads(json.dumps(self.w.get_detailed_status())))
 
-    def pressure(self):
+    def pressure(self):     # return pressure in mmHg
         return str(round(json.loads(json.dumps(self.w.get_pressure()))['press'] * MMHG))
 

@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     filename='system.log')
 
-# please, use you own ipi token
+# please, use you own api token
 """
 db_file_name = 'settings.db'
 bot_settings = get_data_from_db(db_file_name, 'bot', '')
