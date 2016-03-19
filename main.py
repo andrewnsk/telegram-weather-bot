@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     filename='system.log')
 
-# please, use you own ipi token
+# please, use you own api token
 """
 db_file_name = 'settings.db'
 bot_settings = get_data_from_db(db_file_name, 'bot', '')
@@ -23,6 +23,33 @@ bot = telegram.Bot(token=bot_token)
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
 
+
+def wemoji(code):
+    # partially from github.com/mustafababil/Telegram-Weather-Bot/
+    if code:
+        if str(code)[0] == '2' or code == 900 or code == 901 or code == 902 or code == 905:
+            return telegram.Emoji.UMBRELLA_WITH_RAIN_DROPS
+        elif str(code)[0] == '3':
+            return telegram.Emoji.UMBRELLA_WITH_RAIN_DROPS
+        elif str(code)[0] == '5':
+            return telegram.Emoji.UMBRELLA_WITH_RAIN_DROPS
+        elif str(code)[0] == '6' or code == 903 or code == 906:
+            return telegram.Emoji.SNOWFLAKE
+        elif str(code)[0] == '7':
+            return telegram.Emoji.BLACK_SUN_WITH_RAYS
+        elif code == 800:
+            return telegram.Emoji.BLACK_SUN_WITH_RAYS
+        elif code == 801:
+            return telegram.Emoji.CLOUD
+        elif code == 802 or code == 803 or code == 803:
+            return telegram.Emoji.CLOUD
+        elif code == 904:
+            return telegram.Emoji.BLACK_SUN_WITH_RAYS
+        else:
+            return telegram.Emoji.SMILING_FACE_WITH_SUNGLASSES    # Default emoji
+
+    else:
+        return telegram.Emoji.SMILING_FACE_WITH_SUNGLASSES   # Default emoji
 
 def start(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Привет! "
