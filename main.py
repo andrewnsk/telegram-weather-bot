@@ -25,7 +25,7 @@ dispatcher = updater.dispatcher
 
 
 def wemoji(code):
-    # partially from github.com/mustafababil/Telegram-Weather-Bot/
+    # partially get from github.com/mustafababil/Telegram-Weather-Bot/
     if code:
         if str(code)[0] == '2' or code == 900 or code == 901 or code == 902 or code == 905:
             return telegram.Emoji.UMBRELLA_WITH_RAIN_DROPS
@@ -50,6 +50,7 @@ def wemoji(code):
 
     else:
         return telegram.Emoji.SMILING_FACE_WITH_SUNGLASSES   # Default emoji
+
 
 def start(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Привет! "
