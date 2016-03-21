@@ -8,15 +8,6 @@ MMHG = 0.75006375541921
 class GetWeather:
 
     def __init__(self, location):
-        """
-        if location == "Норильск" or location == "норильск":
-            self.location = "Norilsk"
-        elif location == "Краснодар" or location == "краснодар":
-            self.location = "Krasnodar"
-        elif location == "Сочи" or location == "сочи":
-            self.location = "Sochi"
-        else:
-        """
 
         self.location = location
 
