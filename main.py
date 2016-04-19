@@ -5,6 +5,8 @@ from telegram import emoji
 from db import get_data_from_db
 from bottle_logic import Bottle
 from get_weather import GetWeather
+import signal
+import multiprocessing
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -104,11 +106,21 @@ dispatcher.addTelegramMessageHandler(echo)
 def unknown(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text="А вот нет такой команды " + telegram.Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_WINKING_EYE)
-
-
 dispatcher.addUnknownTelegramCommandHandler(unknown)
 
-updater.start_polling()
+
+stop_event = multiprocessing.Event()
+
+
+def stop(signum, frame):
+    stop_event.set()
+
+signal.signal(signal.SIGTERM, stop)
+
+if __name__ == '__main__':
+    while not stop_event.is_set():
+        updater.start_polling()
+
 '''
 def empty_message(bot, update):
     """
