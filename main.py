@@ -64,6 +64,14 @@ def start(bot, update):
 dispatcher.addTelegramCommandHandler('start', start)
 
 
+def god(bot, update):
+    bot.sendMessage(chat_id=update.message.chat_id, text="2016 Андрей Дорохин" + telegram.Emoji.
+                    FACE_WITH_STUCK_OUT_TONGUE_AND_WINKING_EYE)
+
+
+dispatcher.addTelegramCommandHandler('god', god)
+
+
 def weather_message(bot, update, args):
     weather = GetWeather(args[0])
 
