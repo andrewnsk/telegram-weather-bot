@@ -1,6 +1,6 @@
 import logging
 import telegram
-from telegram.updater import Updater
+from telegram import Updater
 from urllib.parse import quote
 from get_weather import GetWeather
 import signal
