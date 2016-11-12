@@ -1,0 +1,31 @@
+{"coord":{"lon":88.2,"lat":69.35},
+
+  "weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],
+
+  "base":"stations",
+
+  "main":{"temp":-29.69,
+    "pressure":1018.69,
+    "humidity":62,
+    "temp_min":-29.69,
+    "temp_max":-29.69,
+    "sea_level":1042.99,
+    "grnd_level":1018.69},
+
+  "wind":{"speed":1.08,
+    "deg":69.002},
+
+  "clouds":{"all":0},
+
+  "dt":1478931332,
+
+  "sys":{"message":0.006,
+    "country":"RU",
+    "sunrise":1478921299,
+    "sunset":1478938402},
+
+  "id":1497337,
+
+  "name":"Norilsk",
+
+  "cod":200}
