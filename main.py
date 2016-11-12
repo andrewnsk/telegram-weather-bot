@@ -16,6 +16,7 @@ bot = telegram.Bot(token=bot_token)
 
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
+bot.sendMessage(chat_id=update.message.chat_id, text="Привет! я бот и я знаю информацию о погоде")
 
 
 def wemoji(code):
