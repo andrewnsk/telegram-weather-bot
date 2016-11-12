@@ -1,6 +1,6 @@
-import pyowm
 import json
 import azimuth
+import urllib.request
 
 MMHG = 0.75006375541921
 
@@ -8,42 +8,39 @@ MMHG = 0.75006375541921
 class GetWeather:
 
     def __init__(self, location):
+        api_url = "api.openweathermap.org"
+        appid = '3ede2418f1124401efcd68e5ae3bddcb'
+        units = 'metric'
+        lang = 'en'
+        self.town = location
+        url_str = 'http://{0}/data/2.5/weather?q={1}&APPID={2}&units={3}&lang={4}'.format(api_url,
+                                                                                          self.town,
+                                                                                          appid,
+                                                                                          units,
+                                                                                          lang)
+        print(url_str)
 
-        self.location = location
-
-        # openweathermap API key
-        # please use you own api key!
-        self.owm_api_key = '3ede2418f1124401efcd68e5ae3bddcb'
-
-        self.owm = pyowm.OWM(self.owm_api_key, language='ru')
-        self.observation = self.owm.weather_at_place('{0}'.format(self.location))
-        self.w = self.observation.get_weather()
-        self.l = self.observation.get_location()
-
-    def town(self):
-        return str(json.loads(json.dumps(self.l.get_name())))
+        response = urllib.request.urlopen(url_str)
+        json_str = response.read()
+        u_json = json.loads(json_str.decode('utf-8'))
+        self.data = u_json
 
     def wind_direction(self):
-        return str(azimuth.degree(round(json.loads(json.dumps(self.w.get_wind()), 1)['deg'])))
+        return str(azimuth.degree(round(self.data['wind']['deg'])))
 
     def wind_speed(self):
-        return str(round(json.loads(json.dumps(self.w.get_wind()))['speed']))
+        return str(self.data['wind']['speed'])
 
     def temperature(self):
-        temp = round(json.loads(json.dumps(self.w.get_temperature('celsius')))['temp'])
-        if temp > 0:
-            temp = '+' + str(temp)
+        temp = self.data['main']['temp']
         return str(temp)
 
     def humidity(self):
-        return str(round(json.loads(json.dumps(self.w.get_humidity()))))
+        return str(self.data['main']['humidity'])
 
-    def status(self):
-        return str(json.loads(json.dumps(self.w.get_detailed_status())))
-
-    def pressure(self):     # return pressure in mmHg
-        return str(round(json.loads(json.dumps(self.w.get_pressure()))['press'] * MMHG))
+    def pressure(self):
+        return str(self.data['main']['pressure'])
 
     def id(self):
-        return int(self.w.get_weather_code())
+        return str(self.data['weather']['id'])
 

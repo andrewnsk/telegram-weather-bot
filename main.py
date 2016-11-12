@@ -1,9 +1,7 @@
 import logging
 import telegram
 from telegram.updater import Updater
-from telegram import emoji
-from db import get_data_from_db
-from bottle_logic import Bottle
+from urllib.parse import quote
 from get_weather import GetWeather
 import signal
 import multiprocessing
@@ -13,12 +11,6 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='system.log')
 
 # please, use you own api token
-"""
-db_file_name = 'settings.db'
-bot_settings = get_data_from_db(db_file_name, 'bot', '')
-bot_token = bot_settings[2]
-"""
-
 bot_token = '186600990:AAHJU4yx2UwFtMf41buQacWsttj6u6Q7rMo'
 bot = telegram.Bot(token=bot_token)
 
@@ -56,49 +48,44 @@ def wemoji(code):
 
 def start(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Привет! "
-                                                         "я бот и я знаю информацию о погоде в Норильске"
-                                                         ", Краснодаре "
-                                                         "и Сочи" + telegram.Emoji.BLACK_SUN_WITH_RAYS)
+                                                         "я бот и я знаю информацию о погоде"
+                                                         " в различных уголках мира"
+                                                         " " + telegram.Emoji.BLACK_SUN_WITH_RAYS)
 
 
 dispatcher.addTelegramCommandHandler('start', start)
 
 
 def god(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text="2016 Андрей Дорохин" + telegram.Emoji.
-                    FACE_WITH_STUCK_OUT_TONGUE_AND_WINKING_EYE)
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text="2016 Андрей Дорохин, Норильск" + telegram.Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_WINKING_EYE)
 
 
 dispatcher.addTelegramCommandHandler('god', god)
 
 
 def weather_message(bot, update, args):
-    weather = GetWeather(args[0])
+    print('weather message')
+    if not args:
+        town = 'Norilsk'
+    else:
+        town = quote(args[0])
+
+    weather = GetWeather(town)
 
     bot.sendMessage(chat_id=update.message.chat_id, text='Погода ' +
                                                          telegram.Emoji.SUNRISE + '\n' +
-                                                         'Температура:          ' +
-                                                         str(weather.temperature()) + ' градусов \n' +
-                                                         'Влажность:           ' +
-                                                         str(weather.humidity()) + ' % \n' +
-                                                         'Ветер:               ' +
-                                                         ' ' + str(weather.wind_direction()) + ' ' +
-                                                         str(weather.wind_speed()) + ' м/с \n' +
-                                                         weather.status()
+                                                         'Температура: ' +
+                                                         weather.temperature() + ' градусов \n' +
+                                                         'Влажность: ' +
+                                                         weather.humidity() + ' % \n' +
+                                                         'Ветер: ' +
+                                                         ' ' + weather.wind_direction() + ' ' +
+                                                         weather.wind_speed() + ' м/с \n'
                     )
 
 
 dispatcher.addTelegramCommandHandler('w', weather_message)
-
-
-# Поиграем в бытылочку ;)
-def bottle_game(bot, update, args):
-    newgame = Bottle()
-    kissed = newgame.kiss(args[0])
-    bot.sendMessage(chat_id=update.message.chat_id, text=kissed + telegram.Emoji.WHITE_UP_POINTING_INDEX + '\n')
-
-
-dispatcher.addTelegramCommandHandler('bottle', bottle_game)
 
 
 def echo(bot, update):
@@ -157,3 +144,4 @@ def empty_message(bot, update):
         if update.message.left_chat_participant.username != BOTNAME:
             return goodbye(bot, update)
 '''
+
