@@ -51,8 +51,10 @@ fabric.properties
 *.log
 *.crt
 *.key
+*.pem
 
 #############
 
 misc.py
 system.log
+

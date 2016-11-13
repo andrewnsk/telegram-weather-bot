@@ -6,6 +6,7 @@ from get_weather import GetWeather
 import signal
 import multiprocessing
 
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     filename='system.log')

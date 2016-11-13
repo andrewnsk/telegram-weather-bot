@@ -29,17 +29,21 @@ class GetWeather:
         return str(azimuth.degree(round(self.data['wind']['deg'])))
 
     def wind_speed(self):
-        return str(self.data['wind']['speed'])
+        return str(round(self.data['wind']['speed']))
 
     def temperature(self):
-        temp = self.data['main']['temp']
-        return str(temp)
+        temp = round(self.data['main']['temp'], ndigits=1)
+        if temp > 0:
+            temp = '+' + str(temp)
+        else:
+            temp = str(temp)
+        return temp
 
     def humidity(self):
         return str(self.data['main']['humidity'])
 
     def pressure(self):
-        return str(self.data['main']['pressure'])
+        return str(round(self.data['main']['pressure'] * MMHG))
 
     def id(self):
         return str(self.data['weather']['id'])
