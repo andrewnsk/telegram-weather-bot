@@ -17,7 +17,6 @@ bot = telegram.Bot(token=bot_token)
 
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
-bot.sendMessage(chat_id=update.message.chat_id, text="Привет! я бот и я знаю информацию о погоде")
 
 
 def wemoji(code):
@@ -60,7 +59,7 @@ dispatcher.addTelegramCommandHandler('start', start)
 
 def god(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id,
-                    text="2016 Андрей Дорохин, Норильск" + telegram.Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_WINKING_EYE)
+                    text="Андрей Дорохин, Норильск 2016 " + telegram.Emoji.FACE_WITH_STUCK_OUT_TONGUE_AND_WINKING_EYE)
 
 
 dispatcher.addTelegramCommandHandler('god', god)
