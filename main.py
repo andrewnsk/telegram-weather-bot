@@ -123,7 +123,6 @@ def empty_message(bot, update):
     Empty messages could be status messages, so we check them if there is a new
     group member, someone left the chat or if the bot has been added somewhere.
     """
-
     # Keep chatlist
     chats = db.get('chats')
 
