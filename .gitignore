@@ -58,3 +58,5 @@ fabric.properties
 misc.py
 system.log
 
+.idea/
+__pycache__
